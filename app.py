@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 
 from flask import (
     Flask,
@@ -27,16 +28,18 @@ def favicon():
     )
 
 
-@app.route("/hello", methods=["POST"])
-def hello():
+@app.route("/info", methods=["POST"])
+def info():
     name = request.form.get("name")
     print("letter: ", name)
-    # df = df.read_csv("BaselineValues.csv")
+    df = pd.read_csv("baseline.csv")
+    letter_row = df.index[df['Letter'] == name].tolist()
+    print(letter_row)
+    if (len(letter_row) > 0):
+        pot1 = df['Pot1'][letter_row[0]]
+        pot2 = df['Pot2'][letter_row[0]]
+        return render_template("info.html", letter=name, exp1=pot1, exp2=pot2)
 
-    if name:
-        return render_template("hello.html", letter=name)
-    else:
-        return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
