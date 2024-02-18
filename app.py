@@ -31,8 +31,7 @@ def favicon():
 def hello():
     name = request.form.get("name")
     print("letter: ", name)
-    df = df.read_csv("BaselineValues.csv")
-    
+    # df = df.read_csv("BaselineValues.csv")
 
     if name:
         return render_template("hello.html", letter=name)
